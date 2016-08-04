@@ -13,7 +13,7 @@ function setToken(user) {
 }
 
 function mockHandler(req, reply) {
-  return User.forge({id: 0})
+  return User.forge({id: 1})
   .fetch()
   .then((u) => {
     return setToken(u);
