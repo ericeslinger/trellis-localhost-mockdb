@@ -11,13 +11,3 @@ function setToken(user) {
     });
   });
 }
-
-function mockHandler(req, reply) {
-  return User.forge({id: 1})
-  .fetch()
-  .then((u) => {
-    return setToken(u);
-  }).then((t) => {
-    return reply.view('token', {token: t});
-  });
-}

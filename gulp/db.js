@@ -1,8 +1,6 @@
 const gulp = require('gulp');
-const Knex = require('knex');
 const shell = require('gulp-shell');
 const Promise = require('bluebird');
-const config = require('../../../../gulp/config');
 
 gulp.task('redis:clearcache', () => {
   Promise.promisifyAll(require('redis'));
@@ -26,7 +24,7 @@ gulp.task('db:reset', shell.task([
   `psql -U flo -d  ${nodeConfig.DATABASE_NAME} -c '\\i src/node/db/db_structuredata.sql'`,
 ]));
 
-gulp.task('db:seed', ['build:backend'], (done) => {
+gulp.task('db:seed', ['build:backend', 'db:reset'], (done) => {
   const Progress = require('progress');
   const services = require('../../services');
   services.initialize();
