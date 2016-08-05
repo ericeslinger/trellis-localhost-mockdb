@@ -1,4 +1,5 @@
 const setToken = require('../controllers/authenticationPlugins/common').setToken;
+const User = require('../models/user');
 
 function mockHandler(req, reply) {
   return User.forge({id: 1})
@@ -14,9 +15,9 @@ function mockHandler(req, reply) {
 function plugin(server, options, next) {
   server.route([{
     method: 'GET',
-    path: `/auth/mock/login`,
+    path: '/auth/mock/login',
     config: {
-      handler: loginHandler,
+      handler: mockHandler,
     },
   }]);
   next();
@@ -25,13 +26,14 @@ function plugin(server, options, next) {
 plugin.attributes = {
   name: 'mockDB routing',
   version: '1.0.0',
-}
+};
 
 module.exports = {
   authentication: [
     {
       type: 'mock',
       support: ['login'],
+      flags: ['noroutes'],
     },
   ],
   mailPass: [{
