@@ -18,7 +18,7 @@ gulp.task('redis:clearcache', () => {
 const nodeConfig = require('../configuration');
 
 gulp.task('db:reset', shell.task([
-  `psql -U flo -d postgres -c 'DROP DATABASE ${nodeConfig.DATABASE_NAME}'`,
+  `psql -U flo -d postgres -c 'DROP DATABASE if exists ${nodeConfig.DATABASE_NAME}'`,
   `psql -U flo -d postgres -c 'CREATE DATABASE ${nodeConfig.DATABASE_NAME}'`,
   `psql -U flo -d ${nodeConfig.DATABASE_NAME} -c 'CREATE EXTENSION pg_stat_statements'`,
   `psql -U flo -d ${nodeConfig.DATABASE_NAME} -c '\\i src/node/db/db_schema.sql'`,
