@@ -6,6 +6,7 @@ module.exports = {
   DATABASE_PASSWORD: 'fumfum',
   DATABASE_NAME: 'florence_development',
   SERVER_IDENTITY: 'localhost',
+  DATABASE_DEBUG: process.env.DBDEBUG === 'true',
   GOOGLE_API_KEY: null,
   GOOGLE_API_SECRET: null,
   TWITTER_API_KEY: null,
@@ -27,6 +28,7 @@ module.exports = {
   POSTGRES_POOL_MAX: 20,
   POSTGRES_POOL_MIN: 0,
   WEBHOOK_POST_URL: null,
+  MANDRILL_WEBHOOK_SIGNING_KEY: null,
   OUTBOUND_EMAIL_PREFIX: 'ALPHA',
 };
 
