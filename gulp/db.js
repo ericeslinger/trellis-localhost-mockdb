@@ -17,13 +17,42 @@ gulp.task('redis:clearcache', () => {
 
 const nodeConfig = require('../configuration');
 
-gulp.task('db:reset', shell.task([
+gulp.task('db:reset', ['db:test:seed'], shell.task([
   `psql -U flo -d postgres -c 'DROP DATABASE if exists ${nodeConfig.DATABASE_NAME}'`,
   `psql -U flo -d postgres -c 'CREATE DATABASE ${nodeConfig.DATABASE_NAME}'`,
   // `psql -U flo -d ${nodeConfig.DATABASE_NAME} -c 'CREATE EXTENSION pg_stat_statements'`,
   `psql -U flo -d ${nodeConfig.DATABASE_NAME} -c '\\i src/node/db/db_schema.sql'`,
   `psql -U flo -d  ${nodeConfig.DATABASE_NAME} -c '\\i src/node/db/db_structuredata.sql'`,
 ]));
+
+gulp.task('db:test:seed', (done) => {
+  const Progress = require('progress');
+  const services = require('../../services');
+  services.initialize();
+  const knex = require('bookshelf').trellis.knex;
+  const documentFactory = require('../../models/factories/document');
+  const profileFactory = require('../../models/factories/profile');
+  const communityFactory = require('../../models/factories/community');
+  const userFactory = require('../../models/factories/user');
+  console.log('creating fellows');
+  profileFactory.fakeProfiles(2, 'fellow')
+  .then(() => {
+    console.log('creating staff');
+    return profileFactory.fakeProfile('staff');
+  }).then(() => {
+    console.log('updating user objects');
+    return userFactory.fakeUsers();
+  }).then(() => {
+    console.log('creating communities');
+    return Promise.all([
+      communityFactory.fakeCommunities(2, {official: true}),
+      communityFactory.fakeCommunities(1, {official: false}),
+    ]);
+  }).then(() => {
+    console.log('generating homegroup');
+    return communityFactory.generateHomegroup();
+  });
+});
 
 gulp.task('db:seed', ['build:backend', 'db:reset'], (done) => {
   const Progress = require('progress');
