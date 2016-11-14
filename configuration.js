@@ -1,6 +1,6 @@
 /* eslint max-len: "off" */
 // require('newrelic') (only for prod)
-module.exports = {
+export const environment = {
   NODE_ENV: 'development',
   DATABASE_USER: 'flo',
   DATABASE_PASSWORD: 'fumfum',
