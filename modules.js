@@ -1,9 +1,9 @@
-const setToken = require('../controllers/authenticationPlugins/common').setToken;
-const User = require('../models/user');
+import setToken from '../controllers/authenticationPlugins/common';
+import { services } from '../services';
 
 function mockHandler(req, reply) {
-  return User.forge({id: 1})
-  .fetch()
+  return services.guild.find('users', 1)
+  .$get()
   .then((u) => {
     return setToken(u);
   }).then((t) => {
@@ -28,7 +28,10 @@ plugin.attributes = {
   version: '1.0.0',
 };
 
-module.exports = {
+export const modules = {
+  mailPass: [
+    {deny: 'all'},
+  ],
   authentication: [
     {
       type: 'mock',
@@ -36,8 +39,7 @@ module.exports = {
       flags: ['noroutes'],
     },
   ],
-  mailPass: [{
-    deny: 'all',
-  }],
-  plugins: [plugin],
+  plugins: [
+    plugin,
+  ],
 };
