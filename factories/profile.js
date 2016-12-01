@@ -1,5 +1,5 @@
 import * as faker from 'faker';
-import * as dimsum from 'dimsum';
+import dimsum from 'dimsum';
 import * as common from './common';
 import { Profile, User } from '../../models/index';
 

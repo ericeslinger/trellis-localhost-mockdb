@@ -12,7 +12,7 @@ export function randomSublist(list, count) {
 }
 
 export function randomSet(max, count) {
-  return randomSublist((new Array(max).map((v, idx) => idx + 1), count));
+  return randomSublist(new Array(max).fill(0).map((v, idx) => idx + 1), count);
 }
 
 export function toRichText(txt) {

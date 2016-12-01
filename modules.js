@@ -7,7 +7,7 @@ function mockHandler(req, reply) {
   .then((u) => {
     return setToken(u);
   }).then((t) => {
-    return reply.view('token', {token: t});
+    return reply.view('token', { token: t });
   });
 }
 
@@ -30,7 +30,7 @@ plugin.attributes = {
 
 export const modules = {
   mailPass: [
-    {deny: 'all'},
+    { deny: 'all' },
   ],
   authentication: [
     {
