@@ -25,6 +25,7 @@ export function fake(guild, type = 'fellow') {
       name: profileData.short_text,
       profile_id: profileData.id,
       email: profileData.email,
+      superuser: profileData.id === 1,
     }, guild).$save();
   })
   .then(() => rV);
