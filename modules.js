@@ -1,4 +1,4 @@
-import setToken from '../controllers/authenticationPlugins/common';
+import { setToken } from '../controllers/authenticationPlugins/common';
 import { services } from '../services';
 
 function mockHandler(req, reply) {
