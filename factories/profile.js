@@ -3,7 +3,7 @@ import dimsum from 'dimsum';
 import * as common from './common';
 import { Profile, User } from '../../models/index';
 
-export function fake(guild, type = 'fellow') {
+export function fake(plump, type = 'fellow') {
   const newProfile = {
     image_url: faker.image.avatar(),
     short_text: `${faker.name.firstName()} ${faker.name.lastName()}`,
@@ -17,7 +17,7 @@ export function fake(guild, type = 'fellow') {
   } else if (type === 'staff') {
     newProfile.title = faker.name.title();
   }
-  const rV = new Profile(newProfile, guild);
+  const rV = new Profile(newProfile, plump);
   return rV.$save()
   .then(() => rV.$get())
   .then((profileData) => {
@@ -26,7 +26,7 @@ export function fake(guild, type = 'fellow') {
       profile_id: profileData.id,
       email: profileData.email,
       superuser: profileData.id === 1,
-    }, guild).$save();
+    }, plump).$save();
   })
   .then(() => rV);
 }

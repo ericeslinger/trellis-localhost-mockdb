@@ -2,7 +2,7 @@ import { setToken } from '../controllers/authenticationPlugins/common';
 import { services } from '../services';
 
 function mockHandler(req, reply) {
-  return services.guild.find('users', 1)
+  return services.plump.find('users', 1)
   .$get()
   .then((u) => {
     return setToken(u);

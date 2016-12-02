@@ -4,7 +4,7 @@ import * as common from './common';
 import { Document } from '../../models/index';
 import Bluebird from 'bluebird';
 
-export function fake(guild, options = {}) {
+export function fake(plump, options = {}) {
   const newDocument = Object.assign(
     {},
     {
@@ -18,13 +18,13 @@ export function fake(guild, options = {}) {
       options,
     }
   );
-  const rV = new Document(newDocument, guild);
+  const rV = new Document(newDocument, plump);
   return rV.$save()
   .then(() => rV);
 }
 
-export function build(guild, options = {}) {
-  return fake(guild)
+export function build(plump, options = {}) {
+  return fake(plump)
   .then((doc) => {
     return Bluebird.all(common.randomSet(options.profileCount, common.getRandomInt(1, 3)).map((pId) => {
       return doc.$add('participants', pId, { perm: 3 });
@@ -36,7 +36,7 @@ export function build(guild, options = {}) {
     }).then(() => {
       const replyCount = Math.min(common.getRandomPareto(2), 15);
       return Bluebird.all(new Array(replyCount).fill(0).map(() => {
-        return fake(guild, { type: 'comment', reply_parents: [doc.$id] });
+        return fake(plump, { type: 'comment', reply_parents: [doc.$id] });
       }));
     }).then((replies) => {
       replies.push(doc);

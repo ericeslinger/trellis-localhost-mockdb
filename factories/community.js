@@ -5,20 +5,20 @@ import { Community } from '../../models/index';
 import Bluebird from 'bluebird';
 
 
-export function fake(guild, options) {
+export function fake(plump, options) {
   const newCommunity = {
     short_text: faker.company.catchPhrase(),
     rich_text: common.toRichText(dimsum(3)),
     official: options.official || false,
     tags: [faker.company.bsNoun(), faker.company.bsNoun(), faker.company.bsNoun()],
   };
-  const rV = new Community(newCommunity, guild);
+  const rV = new Community(newCommunity, plump);
   return rV.$save()
   .then(() => rV);
 }
 
-export function build(guild, options = {}) {
-  return fake(guild, options)
+export function build(plump, options = {}) {
+  return fake(plump, options)
   .then((community) => {
     const mods = [];
     return Bluebird.all(common.randomSet(options.profileCount, common.getRandomInt(1, 3)).map((pId) => {
